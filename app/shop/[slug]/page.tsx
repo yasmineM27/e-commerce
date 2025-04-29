@@ -11,8 +11,10 @@ import { Label } from "@/components/ui/label"
 import { useProducts, Product } from "@/hooks/use-products"
 import { Navbar } from "@/components/navbar"
 import { useOrders } from "@/lib/orders-context"
+import { useCart } from "@/context/cart-context"
 
 export default function ProductPage() {
+  const { addToCart } = useCart()
   const params = useParams()
   const slug = params.slug as string
   const router = useRouter()
@@ -107,9 +109,19 @@ export default function ProductPage() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-  <Button className="h-12 w-full sm:w-1/2">
-    <ShoppingCart className="h-5 w-5 mr-2" />Add to Cart
-  </Button>
+  <Button
+  className="h-12 w-full sm:w-1/2"
+  onClick={() =>
+    addToCart({
+      ...product,
+      quantity,
+    })
+  }
+>
+  <ShoppingCart className="h-5 w-5 mr-2" />
+  Add to Cart
+</Button>
+
   <Button
     variant="outline"
     className="h-12 w-full sm:w-1/2"

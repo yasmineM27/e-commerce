@@ -2,10 +2,10 @@
 
 import Link from "next/link"
 import { ShoppingCart } from "lucide-react"
-
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import type { Product } from "@/hooks/use-products"
+import { useCart } from "@/context/cart-context" // ✅ import du contexte panier
 
 interface ProductCardProps {
   product: Product
@@ -13,6 +13,8 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, viewMode }: ProductCardProps) {
+  const { addToCart } = useCart() // ✅ utilisation du contexte
+
   if (viewMode === "list") {
     return (
       <Card className="overflow-hidden">
@@ -41,7 +43,7 @@ export function ProductCard({ product, viewMode }: ProductCardProps) {
               <Button asChild>
                 <Link href={`/shop/${product.slug}`}>View Details</Link>
               </Button>
-              <Button variant="outline">
+              <Button variant="outline" onClick={() => addToCart(product)}>
                 <ShoppingCart className="h-4 w-4 mr-2" />
                 Add to Cart
               </Button>
@@ -71,7 +73,7 @@ export function ProductCard({ product, viewMode }: ProductCardProps) {
         <p className="mt-2 font-bold">${product.price.toFixed(2)}</p>
       </CardContent>
       <CardFooter className="p-4 pt-0">
-        <Button className="w-full">
+        <Button className="w-full" onClick={() => addToCart(product)}>
           <ShoppingCart className="h-4 w-4 mr-2" />
           Add to Cart
         </Button>

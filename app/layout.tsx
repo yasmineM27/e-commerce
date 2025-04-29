@@ -1,11 +1,13 @@
-import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Providers } from "@/app/providers"
 import { Toaster } from "@/components/ui/sonner"
-import { OrdersProvider } from "@/lib/orders-context";
+import { OrdersProvider } from "@/lib/orders-context"
+import { CartProvider } from "@/context/cart-context"
+import { ProductsProvider } from "@/hooks/use-products"
+import { AuthProvider } from "@/hooks/use-auth"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -29,15 +31,20 @@ export default function RootLayout({
           disableTransitionOnChange
           storageKey="anime-store-theme"
         >
-          <OrdersProvider> 
-            <Providers>
-              {children}
-              <Toaster />
-            </Providers>
-          </OrdersProvider>
+          <AuthProvider>
+            <CartProvider>
+              <ProductsProvider>
+                <OrdersProvider>
+                  <Providers>
+                    {children}
+                    <Toaster />
+                  </Providers>
+                </OrdersProvider>
+              </ProductsProvider>
+            </CartProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }
-
