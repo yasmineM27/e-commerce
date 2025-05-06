@@ -258,7 +258,6 @@ export function RatingTrendsChart({ reviews, timeRange, detailed = false }: Rati
 
   return (
     <div className="h-full w-full">
-      <Line ref={chartRef} data={chartData} options={options} />
     </div>
   )
 }
